@@ -10,21 +10,11 @@ import {
 import { useState } from "react";
 import MainContext from "../components/MainContext";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { userName } from "../store/authSlice";
 
 const Dashboard = () => {
-  const [open, setOpen] = useState(true);
+  // const [open, setOpen] = useState(true);
   const navigate = useNavigate();
-  const userNameFromAuth = useSelector(userName);
-
-  // const handleDrawerOpen = () => {
-  //   setOpen(true);
-  // };
-
-  // const handleDrawerClose = () => {
-  //   setOpen(false);
-  // };
+  const userName = JSON.parse(localStorage.getItem("userName"));
 
   return (
     <div style={{ display: "flex" }}>
@@ -37,7 +27,7 @@ const Dashboard = () => {
       </AppBar>
       <Drawer
         variant="permanent"
-        open={open}
+        // open={open}
         sx={{
           width: drawerWidth,
           flexShrink: 0,
@@ -58,7 +48,7 @@ const Dashboard = () => {
           }}
         >
           <Typography variant="h6" style={{ padding: "10px" }}>
-            {userNameFromAuth}
+            {userName}
           </Typography>
           <List>
             <Button

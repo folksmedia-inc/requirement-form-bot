@@ -5,9 +5,9 @@ import axios from "axios";
 // Define the initial state of the auth slice
 const initialState = {
   loading: false,
-  userName: null,
   status: "idle",
   error: null,
+  user: null,
 };
 
 // Create an async thunk for login
@@ -33,11 +33,7 @@ export const login = createAsyncThunk(
 const authSlice = createSlice({
   name: "auth",
   initialState,
-  reducers: {
-    setUserName: (state, action) => {
-      state.userName = action.payload;
-    },
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(login.pending, (state) => {
@@ -59,8 +55,5 @@ const authSlice = createSlice({
 });
 
 export const loading = (state) => state.auth.loading;
-export const userName = (state) => state.auth.userName;
-
-export const { setUserName } = authSlice.actions;
 
 export default authSlice.reducer;

@@ -19,7 +19,6 @@ const baseURL = "https://q6kl44pw2c.execute-api.us-east-1.amazonaws.com";
 export const postData = createAsyncThunk(
   "data/postData",
   async (requestData) => {
-    console.log(requestData);
     // Destructure projectName and requestData
     try {
       const accessToken = JSON.parse(
@@ -33,8 +32,6 @@ export const postData = createAsyncThunk(
           Authorization: accessToken ? `Bearer ${accessToken}` : "",
         },
       });
-
-      console.log(response);
 
       // Return an object with both response data and projectName
       return { data: response.data, requestData };

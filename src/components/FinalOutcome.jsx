@@ -8,7 +8,6 @@ import { selectFinalResult } from "../store/dashboardSlice";
 const FinalOutCome = () => {
   const finalData = useSelector(selectFinalResult);
   const [htmlContent, setHtmlContent] = useState("");
-  console.log(finalData);
 
   useEffect(() => {
     const processMarkdown = async () => {

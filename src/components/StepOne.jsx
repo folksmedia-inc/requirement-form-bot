@@ -20,8 +20,6 @@ const StepOne = ({ handleChange }) => {
   const { triggerToastModal } = useToastModal();
   const isLoading = useSelector(loading);
 
-  console.log(isLoading, "isLoading");
-
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {

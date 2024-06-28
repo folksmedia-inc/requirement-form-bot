@@ -8,9 +8,9 @@ import StepThree from "./StepThree";
 import FinalOutCome from "./FinalOutcome";
 import { useSelector } from "react-redux";
 import {
+  selectFinalResult,
   selectProjectName,
   selectStepThreeData,
-  selectStepTwoData,
 } from "../store/dashboardSlice";
 
 const steps = ["Step 1", "Step 2", "Step 3", "Final Outcome"];
@@ -18,8 +18,8 @@ const steps = ["Step 1", "Step 2", "Step 3", "Final Outcome"];
 export default function MainContext() {
   const [value, setValue] = useState(0);
   const projectName = useSelector(selectProjectName);
-  const stepTwoDataFromStore = useSelector(selectStepTwoData);
   const stepThreeDataFromStore = useSelector(selectStepThreeData);
+  const finalData = useSelector(selectFinalResult);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -54,8 +54,8 @@ export default function MainContext() {
               {...(index === value && { "aria-selected": true })}
               disabled={
                 (index === 1 && !projectName?.project_name) ||
-                (index === 2 && !stepTwoDataFromStore?.length) ||
-                (index === 3 && !stepThreeDataFromStore?.length)
+                (index === 2 && !stepThreeDataFromStore?.length) ||
+                (index === 3 && !finalData)
               }
             />
           ))}

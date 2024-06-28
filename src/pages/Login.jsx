@@ -8,7 +8,7 @@ import {
   Box,
 } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import { loading, login, setUserName } from "../store/authSlice";
+import { loading, login } from "../store/authSlice";
 import { useToastModal } from "../contexts/ToastModalContext";
 import { useNavigate } from "react-router-dom";
 import LoadingButton from "@mui/lab/LoadingButton";
@@ -26,7 +26,7 @@ const LoginForm = () => {
     try {
       const res = await dispatch(login({ username, password }));
       if (res?.meta?.requestStatus === "fulfilled") {
-        dispatch(setUserName(username));
+        localStorage.setItem("userName", JSON.stringify(username));
         triggerToastModal("Login successful", "success");
         navigate("/dashboard");
       } else {
