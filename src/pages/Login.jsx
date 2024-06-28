@@ -30,10 +30,10 @@ const LoginForm = () => {
         triggerToastModal("Login successful", "success");
         navigate("/dashboard");
       } else {
-        throw new Error("Login failed");
+        throw res;
       }
     } catch (err) {
-      triggerToastModal("Login failed", "error");
+      triggerToastModal(err?.payload?.detail || "Login failed", "error");
     }
   };
 

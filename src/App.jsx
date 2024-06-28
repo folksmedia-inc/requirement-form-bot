@@ -1,4 +1,9 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 
@@ -18,6 +23,20 @@ function App() {
             <RequireAuth>
               <Dashboard />
             </RequireAuth>
+          }
+        />
+        <Route
+          path="*"
+          element={
+            <div
+              style={{
+                textAlign: "center",
+                fontSize: "30px",
+                marginTop: "100px",
+              }}
+            >
+              Path not resolved. 404
+            </div>
           }
         />
       </Routes>
