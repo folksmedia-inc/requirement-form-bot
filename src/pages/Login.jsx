@@ -1,21 +1,23 @@
 import React from "react";
 import {
   TextField,
-  Button,
   Card,
   CardContent,
-  Typography,
   Box,
+  InputAdornment,
+  IconButton,
 } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { loading, login } from "../store/authSlice";
 import { useToastModal } from "../contexts/ToastModalContext";
 import { useNavigate } from "react-router-dom";
 import LoadingButton from "@mui/lab/LoadingButton";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 const LoginForm = () => {
   const [username, setUsername] = React.useState("");
   const [password, setPassword] = React.useState("");
+  const [showPassword, setShowPassword] = React.useState(false);
   const dispatch = useDispatch();
   const isLoading = useSelector(loading);
   const { triggerToastModal } = useToastModal();
@@ -63,13 +65,26 @@ const LoginForm = () => {
             <Box marginBottom={2}>
               <TextField
                 label="Password"
-                type="password"
+                type={showPassword ? "text" : "password"}
                 value={password}
                 onChange={(event) => setPassword(event.target.value)}
                 variant="outlined"
                 fullWidth
                 InputLabelProps={{
                   shrink: true,
+                }}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={() => setShowPassword((prev) => !prev)}
+                        edge="end"
+                      >
+                        {showPassword ? <Visibility /> : <VisibilityOff />}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
                 }}
               />
             </Box>

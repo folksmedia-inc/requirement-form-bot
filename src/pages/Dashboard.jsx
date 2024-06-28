@@ -16,11 +16,18 @@ const Dashboard = () => {
   const navigate = useNavigate();
   const userName = JSON.parse(localStorage.getItem("userName"));
 
+  const capitalizeFirstLetter = (string) => {
+    if (typeof string !== "string" || string.length === 0) {
+      return string;
+    }
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  };
+
   return (
     <div style={{ display: "flex" }}>
       <AppBar position="fixed">
         <Toolbar>
-          <Typography variant="h6" style={{ flexGrow: 1, textAlign: "end" }}>
+          <Typography variant="h5" style={{ flexGrow: 1, textAlign: "end" }}>
             Requirement Form Bot
           </Typography>
         </Toolbar>
@@ -47,8 +54,11 @@ const Dashboard = () => {
             padding: "10px 0 40px 0",
           }}
         >
-          <Typography variant="h6" style={{ padding: "10px" }}>
-            {userName}
+          <Typography
+            variant="h5"
+            style={{ padding: "10px", color: "#1876D1" }}
+          >
+            {capitalizeFirstLetter(userName)}
           </Typography>
           <List>
             <Button
