@@ -56,6 +56,9 @@ const dataSlice = createSlice({
     setStepThreeData: (state, action) => {
       state.stepThreeData = action.payload;
     },
+    resetState: (state) => {
+      Object.assign(state, initialState);
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -82,7 +85,8 @@ const dataSlice = createSlice({
   },
 });
 
-export const { setStepTwoData, setStepThreeData } = dataSlice.actions;
+export const { setStepTwoData, setStepThreeData, resetState } =
+  dataSlice.actions;
 export const selectData = (state) => state.data.data; // Selector function to access stored data
 export const selectProjectName = (state) => state.data.projectName; // Selector function to access stored projectName
 export const selectStepTwoData = (state) => state.data.stepTwoData;
