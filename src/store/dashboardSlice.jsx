@@ -2,6 +2,7 @@
 
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import { login } from "./authSlice";
 
 const initialState = {
   loading: false,
@@ -18,7 +19,7 @@ const baseURL = "https://q6kl44pw2c.execute-api.us-east-1.amazonaws.com";
 // Define async thunk for API call
 export const postData = createAsyncThunk(
   "data/postData",
-  async (requestData) => {
+  async (requestData, { dispatch }) => {
     // Destructure projectName and requestData
     try {
       const accessToken = JSON.parse(
@@ -37,7 +38,17 @@ export const postData = createAsyncThunk(
       return { data: response.data, requestData };
     } catch (error) {
       console.error("Error in postData async thunk:", error);
-      throw error; // Throw the error to be caught by .rejected case
+      if (error?.response?.status === 401) {
+        await dispatch(
+          login({
+            username: JSON.parse(localStorage.getItem("userName")),
+            password: "password",
+          })
+        );
+        throw error?.response?.status;
+      } else {
+        throw error; // Throw the error to be caught by .rejected case
+      }
     }
   }
 );
@@ -55,6 +66,9 @@ const dataSlice = createSlice({
     },
     setStepThreeData: (state, action) => {
       state.stepThreeData = action.payload;
+    },
+    resetState: (state) => {
+      Object.assign(state, initialState);
     },
   },
   extraReducers: (builder) => {
@@ -82,7 +96,8 @@ const dataSlice = createSlice({
   },
 });
 
-export const { setStepTwoData, setStepThreeData } = dataSlice.actions;
+export const { setStepTwoData, setStepThreeData, resetState } =
+  dataSlice.actions;
 export const selectData = (state) => state.data.data; // Selector function to access stored data
 export const selectProjectName = (state) => state.data.projectName; // Selector function to access stored projectName
 export const selectStepTwoData = (state) => state.data.stepTwoData;

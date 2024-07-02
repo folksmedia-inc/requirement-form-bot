@@ -7,14 +7,16 @@ import {
   Typography,
   Button,
 } from "@mui/material";
-import { useState } from "react";
 import MainContext from "../components/MainContext";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { resetState } from "../store/dashboardSlice";
 
 const Dashboard = () => {
   // const [open, setOpen] = useState(true);
   const navigate = useNavigate();
   const userName = JSON.parse(localStorage.getItem("userName"));
+  const dispatch = useDispatch();
 
   const capitalizeFirstLetter = (string) => {
     if (typeof string !== "string" || string.length === 0) {
@@ -65,7 +67,8 @@ const Dashboard = () => {
               variant="contained"
               onClick={() => {
                 navigate("/");
-                localStorage.removeItem("user_tokens");
+                localStorage.clear();
+                dispatch(resetState());
               }}
             >
               Logout

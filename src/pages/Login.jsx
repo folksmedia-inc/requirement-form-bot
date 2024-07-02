@@ -8,7 +8,7 @@ import {
   IconButton,
 } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import { loading, login } from "../store/authSlice";
+import { login, loginLoading } from "../store/authSlice";
 import { useToastModal } from "../contexts/ToastModalContext";
 import { useNavigate } from "react-router-dom";
 import LoadingButton from "@mui/lab/LoadingButton";
@@ -19,7 +19,7 @@ const LoginForm = () => {
   const [password, setPassword] = React.useState("");
   const [showPassword, setShowPassword] = React.useState(false);
   const dispatch = useDispatch();
-  const isLoading = useSelector(loading);
+  const isLoading = useSelector(loginLoading);
   const { triggerToastModal } = useToastModal();
   const navigate = useNavigate();
 
