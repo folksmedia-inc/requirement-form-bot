@@ -10,6 +10,7 @@ import { loading, postData, selectProjectName } from "../store/dashboardSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useToastModal } from "../contexts/ToastModalContext";
 import LoadingButton from "@mui/lab/LoadingButton";
+import { loginLoading } from "../store/authSlice";
 
 const StepOne = ({ handleChange }) => {
   const projectNameFromStore = useSelector(selectProjectName);
@@ -19,9 +20,9 @@ const StepOne = ({ handleChange }) => {
   const dispatch = useDispatch();
   const { triggerToastModal } = useToastModal();
   const isLoading = useSelector(loading);
+  const isLoginLoading = useSelector(loginLoading);
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+  const handleSubmit = async () => {
     try {
       const res = await dispatch(
         postData({
@@ -37,8 +38,11 @@ const StepOne = ({ handleChange }) => {
       }
     } catch (err) {
       console.log(err);
-      // Handle error
-      triggerToastModal("Faild to submit Project Name!", "error");
+      if (err?.error?.message === "401") {
+        handleSubmit();
+      } else {
+        triggerToastModal("Faild to submit Project Name!", "error");
+      }
     }
   };
 
@@ -63,7 +67,7 @@ const StepOne = ({ handleChange }) => {
           variant="contained"
           onClick={handleSubmit}
           disabled={projectName === ""}
-          loading={isLoading}
+          loading={isLoading || isLoginLoading}
         >
           Submit
         </LoadingButton>

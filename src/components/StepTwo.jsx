@@ -10,7 +10,7 @@ import {
   setStepTwoData,
 } from "../store/dashboardSlice";
 import LoadingButton from "@mui/lab/LoadingButton";
-// import { TextField, Button, Typography, Container, Grid } from "@mui/material";
+import { loginLoading } from "../store/authSlice";
 
 const StepTwo = ({ handleChange }) => {
   const stepTwoDataFromStore = useSelector(selectStepTwoData);
@@ -19,6 +19,7 @@ const StepTwo = ({ handleChange }) => {
   const { triggerToastModal } = useToastModal();
   const projectName = useSelector(selectProjectName);
   const isLoading = useSelector(loading);
+  const isLoginLoading = useSelector(loginLoading);
 
   const handleInputChange = (index, value) => {
     const updatedAnswers = [...answers];
@@ -45,10 +46,14 @@ const StepTwo = ({ handleChange }) => {
     } catch (err) {
       // Handle error
       console.log(err);
-      triggerToastModal(
-        "Faild to submit Static Questions and Answers!",
-        "error"
-      );
+      if (err?.error?.message === "401") {
+        handleSubmit();
+      } else {
+        triggerToastModal(
+          "Faild to submit Static Questions and Answers!",
+          "error"
+        );
+      }
     }
   };
 
@@ -88,7 +93,7 @@ const StepTwo = ({ handleChange }) => {
             variant="contained"
             onClick={handleSubmit}
             style={{ marginTop: 0, width: "140px" }}
-            loading={isLoading}
+            loading={isLoading || isLoginLoading}
           >
             Submit
           </LoadingButton>

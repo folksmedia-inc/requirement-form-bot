@@ -54,6 +54,6 @@ const authSlice = createSlice({
   },
 });
 
-export const loading = (state) => state.auth.loading;
+export const loginLoading = (state) => state.auth.loading;
 
 export default authSlice.reducer;

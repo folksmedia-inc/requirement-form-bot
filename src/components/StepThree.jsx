@@ -10,12 +10,14 @@ import {
 } from "../store/dashboardSlice";
 import { postData } from "../store/dashboardSlice";
 import LoadingButton from "@mui/lab/LoadingButton";
+import { loginLoading } from "../store/authSlice";
 
 const StepThree = ({ handleChange }) => {
   const stepThreeDataFromStore = useSelector(selectStepThreeData);
   const [answers, setAnswers] = useState(stepThreeDataFromStore);
   const projectName = useSelector(selectProjectName);
   const isLoading = useSelector(loading);
+  const isLoginLoading = useSelector(loginLoading);
 
   const dispatch = useDispatch();
   const { triggerToastModal } = useToastModal();
@@ -26,7 +28,7 @@ const StepThree = ({ handleChange }) => {
     setAnswers(updatedAnswers);
   };
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = async () => {
     try {
       const res = await dispatch(
         postData({
@@ -45,10 +47,14 @@ const StepThree = ({ handleChange }) => {
     } catch (err) {
       // Handle error
       console.log(err);
-      triggerToastModal(
-        "Faild to submit Dynamic Questions and Answers!",
-        "error"
-      );
+      if (err?.error?.message === "401") {
+        handleSubmit();
+      } else {
+        triggerToastModal(
+          "Faild to submit Dynamic Questions and Answers!",
+          "error"
+        );
+      }
     }
   };
 
@@ -90,7 +96,7 @@ const StepThree = ({ handleChange }) => {
             variant="contained"
             onClick={handleSubmit}
             style={{ marginTop: 0, width: "140px" }}
-            loading={isLoading}
+            loading={isLoading || isLoginLoading}
           >
             Submit
           </LoadingButton>
